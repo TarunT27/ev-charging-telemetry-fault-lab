@@ -1,0 +1,7 @@
+{
+  "name": "Congested telemetry uplink",
+  "seed": 27,
+  "charger_count": 4,
+  "samples_per_charger": 90,
+  "preset": "noisy-network"
+}

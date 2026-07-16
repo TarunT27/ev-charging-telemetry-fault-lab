@@ -1,0 +1,7 @@
+{
+  "name": "Degraded power sensors",
+  "seed": 27,
+  "charger_count": 3,
+  "samples_per_charger": 80,
+  "preset": "sensor-drift"
+}

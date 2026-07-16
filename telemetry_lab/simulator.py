@@ -1,45 +1,26 @@
-"""Immutable telemetry samples and repeatable fault scenarios."""
+"""Public facade for the fault-lab simulation engine."""
 
-from dataclasses import dataclass, replace
-from enum import Enum
-from typing import Iterable
+from telemetry_lab.diagnostics import analyze_telemetry
+from telemetry_lab.faults import FaultApplication, FaultInjectionResult, apply_fault, inject_faults
+from telemetry_lab.generator import generate_telemetry
+from telemetry_lab.models import ChargerState, FaultProfile, FaultType, ScenarioConfig, ScenarioResult, TelemetrySample
+from telemetry_lab.recovery import RecoveryResult, verify_recovery
+from telemetry_lab.service import run_scenario
 
-
-class FaultType(str, Enum):
-    TIMEOUT = "timeout"
-    DELAY = "delay"
-    CORRUPT = "corrupt"
-
-
-@dataclass(frozen=True)
-class TelemetrySample:
-    charger_id: str
-    power_kw: float
-    timestamp_ms: int
-
-
-def apply_fault(
-    sample: TelemetrySample,
-    fault: FaultType,
-    delay_ms: int = 1000,
-) -> TelemetrySample | None:
-    if fault is FaultType.TIMEOUT:
-        return None
-    if fault is FaultType.DELAY:
-        return replace(sample, timestamp_ms=sample.timestamp_ms + delay_ms)
-    if fault is FaultType.CORRUPT:
-        return replace(sample, power_kw=-1.0)
-    raise ValueError(f"unsupported fault: {fault}")
-
-
-def validate_sample(sample: TelemetrySample) -> bool:
-    return bool(sample.charger_id) and sample.power_kw >= 0.0 and sample.timestamp_ms >= 0
-
-
-def run_scenario(samples: Iterable[TelemetrySample], fault: FaultType) -> dict[str, int]:
-    counters = {"accepted": 0, "rejected": 0, "dropped": 0}
-    for sample in samples:
-        changed = apply_fault(sample, fault)
-        key = "dropped" if changed is None else "accepted" if validate_sample(changed) else "rejected"
-        counters = {**counters, key: counters[key] + 1}
-    return counters
+__all__ = [
+    "ChargerState",
+    "FaultApplication",
+    "FaultInjectionResult",
+    "FaultProfile",
+    "FaultType",
+    "RecoveryResult",
+    "ScenarioConfig",
+    "ScenarioResult",
+    "TelemetrySample",
+    "analyze_telemetry",
+    "apply_fault",
+    "generate_telemetry",
+    "inject_faults",
+    "run_scenario",
+    "verify_recovery",
+]

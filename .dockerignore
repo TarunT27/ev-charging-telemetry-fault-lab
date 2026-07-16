@@ -1,0 +1,12 @@
+.git
+.github
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.coverage
+artifacts
+assets
+tests
+__pycache__
+*.pyc
+*.egg-info

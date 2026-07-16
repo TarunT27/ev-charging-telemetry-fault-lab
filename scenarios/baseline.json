@@ -1,0 +1,7 @@
+{
+  "name": "Healthy fleet baseline",
+  "seed": 27,
+  "charger_count": 3,
+  "samples_per_charger": 60,
+  "preset": "baseline"
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relay API Reference</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <header class="topbar"><a class="brand" href="/"><span class="brand-mark">R</span><span>Relay</span></a><nav><a href="/">Dashboard</a><a href="/openapi.json">OpenAPI JSON</a></nav><div class="live-pill"><span></span> local reference</div></header>
+    <main class="docs-shell">
+      <p class="eyebrow">Version 1.0 / same-origin only</p>
+      <h1>Telemetry lab API</h1>
+      <p class="hero-copy">Run bounded virtual-charger scenarios through the same service used by the CLI and dashboard. The API never connects to charger hardware.</p>
+      <section class="docs-grid">
+        <article class="docs-card"><div><code>GET</code><strong>/health</strong></div><p>Process liveness and synthetic-only operating mode.</p></article>
+        <article class="docs-card"><div><code>GET</code><strong>/api/v1/presets</strong></div><p>Fault profiles for network, message, sensor, and mixed reliability drills.</p></article>
+        <article class="docs-card wide"><div><code>POST</code><strong>/api/v1/scenarios</strong></div><p>Generate telemetry, inject failures, validate detection, and verify retry/reconnect recovery.</p><pre>{
+  "name": "Supercharger SiL drill",
+  "preset": "mixed-faults",
+  "seed": 27,
+  "charger_count": 3,
+  "samples_per_charger": 60
+}</pre></article>
+      </section>
+      <section class="docs-note"><strong>Operational limits</strong><span>32 KiB request body · 12 scenario runs/client/minute · 2 concurrent runs · 20,000 generated samples maximum · 500 records maximum per response collection</span></section>
+    </main>
+  </body>
+</html>

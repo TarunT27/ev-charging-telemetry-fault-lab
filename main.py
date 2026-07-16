@@ -1,13 +1,6 @@
-from telemetry_lab.simulator import FaultType, TelemetrySample, run_scenario
+"""Convenience entry point for the curated deterministic demo."""
 
-
-def main() -> None:
-    samples = (
-        TelemetrySample("charger-1", 72.5, 1000),
-        TelemetrySample("charger-2", 110.0, 1100),
-    )
-    print(run_scenario(samples, FaultType.CORRUPT))
-
+from telemetry_lab.cli import main
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main(("demo",)))
