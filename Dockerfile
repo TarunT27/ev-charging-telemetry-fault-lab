@@ -1,4 +1,4 @@
-FROM python:3.13-slim@sha256:bffeb7bd6a85767587059c6ba23e1e9122078e3aa3fa836099171b9bb5a9bb00 AS builder
+FROM python:3.14-slim@sha256:d3400aa122fa42cf0af0dbe8ec3091b047eac5c8f7e3539f7135e86d855dc015 AS builder
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 WORKDIR /build
@@ -11,7 +11,7 @@ COPY telemetry_lab ./telemetry_lab
 RUN python -m pip wheel --no-cache-dir --no-deps --no-build-isolation --wheel-dir /wheels .
 
 
-FROM python:3.13-slim@sha256:bffeb7bd6a85767587059c6ba23e1e9122078e3aa3fa836099171b9bb5a9bb00
+FROM python:3.14-slim@sha256:d3400aa122fa42cf0af0dbe8ec3091b047eac5c8f7e3539f7135e86d855dc015
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
