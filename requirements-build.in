@@ -1,0 +1,3 @@
+# Build-only dependencies. Compile with:
+# pip-compile --generate-hashes --output-file requirements-build.lock requirements-build.in
+hatchling==1.28.0

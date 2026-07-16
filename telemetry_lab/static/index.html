@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Interactive deterministic EV charging telemetry fault-injection lab.">
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <title>Relay / EV Telemetry Fault Lab</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Relay home"><span class="brand-mark">R</span><span>Relay</span></a>
+      <nav><a href="#lab">Lab</a><a href="/api/docs">API</a><a href="https://github.com/TarunT27/ev-charging-telemetry-fault-lab">GitHub</a></nav>
+      <div class="live-pill"><span></span> synthetic fleet online</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Reliability engineering / fault intelligence</p>
+          <h1>Break the signal.<br><em>Trust the system.</em></h1>
+          <p class="hero-copy">A virtual charger/controller emits realistic status, power, connection health, and diagnostics. Inject repeatable failures, then verify detection, retry, reconnect, and safe recovery.</p>
+          <div class="hero-actions"><a class="button primary" href="#lab">Run a scenario <span>↘</span></a><a class="button ghost" href="/api/docs">Explore the API</a></div>
+        </div>
+        <div class="signal-card" aria-label="Live charging signal visualization">
+          <div class="signal-head"><span>EVSE-003 / POWER_KW</span><strong id="hero-power">148.2</strong></div>
+          <svg viewBox="0 0 560 250" role="img" aria-label="Stylized charger power signal">
+            <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#65e3c4" stop-opacity=".44"/><stop offset="1" stop-color="#65e3c4" stop-opacity="0"/></linearGradient></defs>
+            <path class="gridline" d="M0 50H560M0 100H560M0 150H560M0 200H560"/>
+            <path class="area" d="M0 210L0 180 45 172 85 154 122 131 160 76 192 91 226 71 262 82 297 58 330 72 365 69 401 61 432 176 465 74 501 70 530 54 560 63V210Z"/>
+            <path class="trace" d="M0 180 45 172 85 154 122 131 160 76 192 91 226 71 262 82 297 58 330 72 365 69 401 61 432 176 465 74 501 70 530 54 560 63"/>
+            <circle cx="432" cy="176" r="6" class="fault-dot"/><path class="fault-rule" d="M432 20V218"/>
+          </svg>
+          <div class="signal-foot"><span><i class="mint"></i> nominal signal</span><span><i class="coral"></i> injected anomaly</span><code>seed:27</code></div>
+        </div>
+      </section>
+
+      <section class="trust-strip"><span>9 fault modes</span><span>10 explainable checks</span><span>retry + reconnect</span><span>offline by design</span></section>
+
+      <section class="lab-section" id="lab">
+        <div class="section-head"><div><p class="eyebrow">Scenario workbench</p><h2>Turn failure into a controlled variable.</h2></div><p>Configure a bounded synthetic fleet. Every run is deterministic, immutable, and carries its own ground truth.</p></div>
+        <div class="workbench">
+          <form class="control-panel" id="scenario-form">
+            <label>Scenario name<input id="name" name="name" value="Night-shift mixed faults" maxlength="80" required></label>
+            <label>Fault profile<select id="preset" name="preset"><option value="mixed-faults">Mixed faults</option><option value="noisy-network">Noisy network</option><option value="sensor-drift">Sensor drift</option><option value="baseline">Baseline</option></select></label>
+            <div class="field-grid"><label>Chargers<input id="chargers" name="charger_count" type="number" value="3" min="1" max="20"></label><label>Samples / charger<input id="samples" name="samples_per_charger" type="number" value="60" min="5" max="1000"></label></div>
+            <label>Replay seed<input id="seed" name="seed" type="number" value="27" min="0" max="2147483647"><small>Same seed + config = same telemetry and faults.</small></label>
+            <button class="button primary run-button" type="submit"><span id="run-label">Run fault injection</span><span>↗</span></button>
+            <p class="form-status" id="form-status" aria-live="polite">Ready. No network or charger connection required.</p>
+          </form>
+
+          <div class="results-panel">
+            <div class="result-head"><div><span class="result-kicker">Latest run</span><h3 id="result-name">Awaiting scenario</h3></div><span class="run-state" id="run-state">standby</span></div>
+            <div class="metrics">
+              <article><span>Detection</span><strong id="metric-detection">—</strong><small>ground-truth recall</small></article>
+              <article><span>Recovery</span><strong id="metric-recovery">—</strong><small>faults recovered</small></article>
+              <article><span>Reconnects</span><strong id="metric-reconnects">—</strong><small>controller sessions</small></article>
+              <article><span>Unsafe</span><strong id="metric-unsafe">—</strong><small>incorrect actions</small></article>
+            </div>
+            <div class="chart-head"><span>Fleet power profile</span><div id="legend"></div></div>
+            <svg class="result-chart" id="result-chart" viewBox="0 0 800 260" role="img" aria-label="Scenario fleet power chart"><text x="400" y="130" text-anchor="middle">Run a scenario to render telemetry</text></svg>
+            <div class="event-summary"><span>Injected event trail</span><strong id="event-summary">No events yet</strong></div>
+            <div class="event-pills" id="event-pills"></div>
+            <div class="event-summary"><span>Controller recovery log</span><strong id="recovery-summary">No actions yet</strong></div>
+            <div class="event-pills recovery-pills" id="recovery-pills"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="principles">
+        <article><span>01</span><h3>Faults are ground truth</h3><p>Injection events stay separate from detector findings, so detection rate means something.</p></article>
+        <article><span>02</span><h3>Signals stay immutable</h3><p>Every transformation creates a new sample. The pristine stream remains auditable.</p></article>
+        <article><span>03</span><h3>Recovery stays safe</h3><p>Retries are bounded, connection loss inhibits output, and charging resumes only after controller health checks pass.</p></article>
+      </section>
+    </main>
+
+    <footer><div class="brand"><span class="brand-mark">R</span><span>Relay</span></div><p>Synthetic telemetry lab · no OCPP commands · no outbound requests</p><p>Built for observable systems.</p></footer>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

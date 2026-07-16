@@ -1,0 +1,7 @@
+{
+  "name": "Mixed fleet reliability drill",
+  "seed": 27,
+  "charger_count": 5,
+  "samples_per_charger": 120,
+  "preset": "mixed-faults"
+}
