@@ -80,6 +80,19 @@ class ApiIntegrationTests(unittest.TestCase):
         self.assertNotIn("https://", response.text)
         self.assertIn("default-src 'self'", response.headers["content-security-policy"])
 
+    def test_dashboard_uses_the_relay_logo_asset(self):
+        dashboard = self.client.get("/")
+        api_docs = self.client.get("/api/docs")
+        logo = self.client.get("/static/relay-logo.svg")
+
+        self.assertEqual(200, dashboard.status_code)
+        self.assertIn('/static/relay-logo.svg', dashboard.text)
+        self.assertIn('/static/relay-logo.svg', api_docs.text)
+        self.assertNotIn('/static/favicon.svg', api_docs.text)
+        self.assertEqual(200, logo.status_code)
+        self.assertIn("image/svg+xml", logo.headers["content-type"])
+        self.assertIn('aria-label="Relay home"', dashboard.text)
+
     def test_large_run_returns_bounded_collections_with_complete_totals(self):
         response = self.client.post(
             "/api/v1/scenarios",

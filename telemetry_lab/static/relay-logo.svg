@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="relay-logo-title relay-logo-desc">
+  <title id="relay-logo-title">Relay</title>
+  <desc id="relay-logo-desc">A circuit-inspired R mark for the EV telemetry reliability lab.</desc>
+  <defs>
+    <linearGradient id="relay-surface" x1="8" y1="6" x2="57" y2="59" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#83f1d4"/>
+      <stop offset="1" stop-color="#50cdb0"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="17" fill="url(#relay-surface)"/>
+  <path d="M18 49V15h16c9 0 14 4.5 14 12s-5 12-14 12H18m16 0 14 12" fill="none" stroke="#07151a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M27 28h5l2.5-5 4 10 2.5-5h5" fill="none" stroke="#f3b65d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
